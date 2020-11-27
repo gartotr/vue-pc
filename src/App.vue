@@ -1,9 +1,22 @@
 <template>
-    <div>Appppppp</div>
+    <div>
+        <Header></Header>
+        <router-view></router-view>
+        <Footer></Footer>
+    </div>
 </template>
 
 <script>
-export default {}
+import Header from './views/Header'
+import Footer from './views/Footer'
+
+export default {
+    name: 'App',
+    components: {
+        Header,
+        Footer,
+    },
+}
 </script>
 
 <style>
