@@ -69,7 +69,10 @@ export default {
             const { searchText } = this
             const params = searchText ? `/${searchText}` : ''
             const localhost = '/search' + params
-            this.$router.push(localhost)
+            this.$router
+                .push(localhost)
+                .then(() => {})
+                .catch(() => {})
         },
     },
 }
