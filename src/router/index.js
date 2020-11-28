@@ -15,16 +15,22 @@ export default new VueRouter({
             component: Home,
         },
         {
-            path: '/search',
+            path: '/search/:seatchText?',
             component: Search,
         },
         {
             path: '/login',
             component: Login,
+            meta: {
+                isFooterShow: true,
+            },
         },
         {
             path: '/register',
             component: Register,
+            meta: {
+                isFooterShow: true,
+            },
         },
     ],
 })

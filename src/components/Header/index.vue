@@ -7,19 +7,21 @@
                     @mouseenter="isShow = true"
                     @mouseleave="isShow = false"
                 >
-                    <a href="javascript:;">广东</a>
                     <i class="iconfont icon-ditu"></i>
+                    <a href="javascript:;">广东</a>
                     <div class="all_city" v-show="isShow"></div>
                 </div>
                 <div class="header_item">
-                    <p>你好,请登录</p>
-                    <router-link to="###">免费注册</router-link>
+                    <router-link to="/login" id="user_login">
+                        你好,请登录
+                    </router-link>
+                    <router-link to="/register">免费注册</router-link>
                     <span>|</span>
                     <router-link to="###">我的订单</router-link>
                     <span>|</span>
-                    <router-link to="###">我的京东</router-link>
+                    <router-link to="###">我的东京</router-link>
                     <span>|</span>
-                    <router-link to="###">京东会员</router-link>
+                    <router-link to="###">东京会员</router-link>
                     <span>|</span>
                     <router-link to="###">企业采购</router-link>
                     <span>|</span>
@@ -27,18 +29,20 @@
                     <span>|</span>
                     <router-link to="###">网站导航</router-link>
                     <span>|</span>
-                    <router-link to="###">手机京东</router-link>
+                    <router-link to="###">手机东京</router-link>
                 </div>
             </div>
         </div>
         <div class="header_main_outer">
             <div class="header_main w">
                 <h1 class="header_logo">
-                    <a href="#"><img src="./images/sprite.png" alt="" /></a>
+                    <router-link to="/">
+                        <img src="./images/sprite.png" alt="" />
+                    </router-link>
                 </h1>
                 <div class="header_search">
-                    <input type="text" />
-                    <button id="search">搜索</button>
+                    <input type="text" v-model="searchText" />
+                    <button id="search" @click="search">搜索</button>
                 </div>
                 <div class="header_shopping">
                     <div class="header_cart">
@@ -56,8 +60,17 @@ export default {
     name: 'Header',
     data() {
         return {
+            searchText: '',
             isShow: false,
         }
+    },
+    methods: {
+        search() {
+            const { searchText } = this
+            const params = searchText ? `/${searchText}` : ''
+            const localhost = '/search' + params
+            this.$router.push(localhost)
+        },
     },
 }
 </script>
@@ -65,6 +78,9 @@ export default {
 <style lang="less">
 @orange: #f10215;
 
+#user_login {
+    margin-right: 8px;
+}
 .header_shortcut {
     width: 100%;
     background-color: #e3e4e5;
@@ -80,15 +96,13 @@ export default {
     margin: 0 auto;
     .header_item {
         display: flex;
-        p {
-            color: #999;
-            margin-right: 10px;
-        }
+
         span {
             color: #999;
             margin: 0 8px;
         }
         a:hover {
+            transition: all 0.3s;
             color: @orange;
         }
     }
