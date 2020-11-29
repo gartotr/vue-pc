@@ -53,7 +53,76 @@
                 </ul>
             </div>
 
-            <div class="fs_col"></div>
+            <div class="fs_col">
+                <div class="fs_col_news">
+                    <h4>东京快报</h4>
+                    <ul>
+                        <li>
+                            <a href="javascript:;">但为什么AirPods上市两年后</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">但为什么AirPods上市两年后</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">但为什么AirPods上市两年后</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">但为什么AirPods上市两年后</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">但为什么AirPods上市两年后</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">但为什么AirPods上市两年后</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">但为什么AirPods上市两年后</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">但为什么AirPods上市两年后</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">但为什么AirPods上市两年后</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">但为什么AirPods上市两年后</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">但为什么AirPods上市两年后</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">但为什么AirPods上市两年后</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">但为什么AirPods上市两年后</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">但为什么AirPods上市两年后</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">但为什么AirPods上市两年后</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">但为什么AirPods上市两年后</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">但为什么AirPods上市两年后</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">但为什么AirPods上市两年后</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">但为什么AirPods上市两年后</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">但为什么AirPods上市两年后</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">但为什么AirPods上市两年后</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -72,7 +141,6 @@ export default {
     async mounted() {
         const res = await reqGetBaseCategoryList()
         this.categoryList = res
-        console.log(this.categoryList)
     },
 }
 </script>
@@ -181,7 +249,27 @@ export default {
     .fs_col {
         width: 190px;
         height: 470px;
-        background-color: rgb(117, 177, 200);
+        box-sizing: border-box;
+        padding: 10px;
+        .fs_col_news {
+            width: 170px;
+
+            // background-color: #999;
+            box-sizing: border-box;
+            padding: 0px 5px;
+            border-top: 1px solid black;
+            border-bottom: 1px solid #666;
+            h4 {
+                font-size: 14px;
+            }
+            li {
+                height: 20px;
+                line-height: 20px;
+                a {
+                    color: #666;
+                }
+            }
+        }
     }
 }
 

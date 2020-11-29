@@ -10,7 +10,7 @@
                     <input type="text" id="login_username" placeholder="手机号" v-model="user_phone" />
                     <input type="password" id="login_userpass" placeholder="密码" v-model="user_password" />
                     <p><a href="#">忘记密码</a></p>
-                    <button @click="login">登&nbsp;录</button>
+                    <button :plain="true" @click="login">登&nbsp;录</button>
                 </div>
             </div>
         </div>
@@ -31,6 +31,10 @@ export default {
     methods: {
         login() {
             const { user_phone: phone, user_password: password } = this
+            if (!phone && !password) {
+                this.$message.error('请输入用户名密码')
+                return
+            }
             reqLogin(phone, password)
                 .then((res) => {
                     console.log(res)
