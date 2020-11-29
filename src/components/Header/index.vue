@@ -111,7 +111,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 @orange: #f10215;
 
 #user_login {

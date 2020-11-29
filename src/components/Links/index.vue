@@ -39,7 +39,7 @@ export default {
 
 <style lang="less" scoped>
 .footer_links {
-    width: 1180px;
+    width: 1190px;
     height: 20px;
     margin: 0 auto;
     padding: 15px;
@@ -51,7 +51,7 @@ export default {
     }
 }
 .footer_copy {
-    width: 1180px;
+    width: 1190px;
     margin: 0 auto;
     p {
         display: flex;

@@ -58,7 +58,7 @@ export default {
 .footer_nav {
     background-color: #f4f4f4;
     display: flex;
-    width: 1180px;
+    width: 1190px;
     height: 160px;
     margin: 0 auto;
     padding: 20px 0;
