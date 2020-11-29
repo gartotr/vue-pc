@@ -39,9 +39,7 @@
             </dl>
             <dl>
                 <dt>覆盖区县</dt>
-                <dd>
-                    东京已向全国2661个区县提供自营配送服务，支持货到付款、POS机刷卡和售后上门服务。
-                </dd>
+                <dd>东京已向全国2661个区县提供自营配送服务，支持货到付款、POS机刷卡和售后上门服务。</dd>
             </dl>
         </div>
     </footer>
@@ -60,7 +58,7 @@ export default {
 .footer_nav {
     background-color: #f4f4f4;
     display: flex;
-    width: 990px;
+    width: 1180px;
     height: 160px;
     margin: 0 auto;
     padding: 20px 0;

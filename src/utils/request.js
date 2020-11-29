@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+import { Message } from 'element-ui'
+
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
@@ -30,6 +32,7 @@ instance.interceptors.response.use(
     error => {
         // console.dir(error);
         NProgress.done()
+        Message.error(message)
         const message = error.message || '网络错误'
 
         return Promise.reject(message)
