@@ -93,19 +93,7 @@
                     <h4>东京快报</h4>
                     <ul>
                         <li>
-                            <a href="javascript:;">这是来自未来的手机</a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">这是来自未来的手机</a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">这是来自未来的手机</a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">这是来自未来的手机</a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">这是来自未来的手机</a>
+                            <a href="javascript:;">但为什么AirPods上市两年后</a>
                         </li>
                     </ul>
                 </div>
@@ -131,17 +119,28 @@ export default {
         ...mapActions(['getCategoryList']),
         goSearch(e) {
             const { categoryname, categoryid, categorytype } = e.target.dataset
+
             if (!categoryname) return
-            this.$router.push({
+            const location = {
                 name: 'search',
                 query: {
                     categoryName: categoryname,
                     [`category${categorytype}Id`]: categoryid,
                 },
-            })
+            }
+            const { searchText } = this.$route.params
+
+            if (searchText) {
+                location.params = {
+                    searchText,
+                }
+            }
+
+            this.$router.push(location)
         },
     },
     mounted() {
+        if (this.categoryList.length) return
         this.getCategoryList()
     },
 }
@@ -169,6 +168,9 @@ a {
         background-color: #fff;
         padding-top: 10px;
         position: relative;
+        a {
+            color: #636363;
+        }
         .fs_list_list {
             transition: all 0.2s;
             font-size: 14px;
@@ -272,7 +274,7 @@ a {
             border-top: 1px solid #999;
             border-bottom: 1px solid #999;
             h4 {
-                padding: 4px 0;
+                padding: 10px 0;
                 font-size: 14px;
             }
             li {
@@ -332,7 +334,7 @@ a {
             width: 190px;
             height: 240px;
             img {
-                width: 170px;
+                width: 190px;
                 height: 240px;
             }
         }

@@ -100,10 +100,24 @@ export default {
     methods: {
         search() {
             const { searchText } = this
-            const params = searchText ? `/${searchText}` : ''
-            const localhost = '/search' + params
+
+            const location = {
+                name: 'search', // 使用命名路由
+            }
+            if (searchText) {
+                location.params = {
+                    searchText,
+                }
+            }
+
+            const { categoryName } = this.$route.query
+
+            if (categoryName) {
+                location.query = this.$route.query
+            }
+
             this.$router
-                .push(localhost)
+                .push(location)
                 .then(() => {})
                 .catch(() => {})
         },
@@ -162,7 +176,7 @@ export default {
         width: 504px;
         input {
             box-sizing: border-box;
-            height: 32px;
+            height: 34px;
             width: 438px;
             outline: none;
             border: 2px solid #e1251b;
@@ -170,7 +184,7 @@ export default {
         }
         #search {
             color: #fff;
-            height: 32px;
+            height: 34px;
             width: 64px;
             border: 2px solid #e1251b;
             border-left: none;
