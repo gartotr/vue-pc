@@ -31,6 +31,7 @@ export default new VueRouter({
             component: Home,
         },
         {
+            name: 'search',
             path: '/search/:seatchText?',
             component: Search,
         },

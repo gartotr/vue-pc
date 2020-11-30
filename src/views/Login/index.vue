@@ -8,7 +8,13 @@
                 </div>
                 <div class="login_input">
                     <input type="text" id="login_username" placeholder="手机号" v-model="user_phone" />
-                    <input type="password" id="login_userpass" placeholder="密码" v-model="user_password" />
+                    <input
+                        type="password"
+                        id="login_userpass"
+                        placeholder="密码"
+                        v-model="user_password"
+                        @keyup.enter="login"
+                    />
                     <p><a href="#">忘记密码</a></p>
                     <button :plain="true" @click="login">登&nbsp;录</button>
                 </div>
@@ -36,11 +42,11 @@ export default {
                 return
             }
             reqLogin(phone, password)
-                .then((res) => {
-                    console.log(res)
+                .then(() => {
+                    this.$router.push('/')
                 })
-                .catch((err) => {
-                    console.log(err)
+                .catch(() => {
+                    this.$message.error('输入错误请重新输入')
                 })
         },
     },
@@ -110,6 +116,7 @@ export default {
         height: 30px;
         font-size: 18px;
         color: #fff;
+        cursor: pointer;
     }
 }
 </style>

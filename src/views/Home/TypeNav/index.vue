@@ -2,18 +2,36 @@
     <div class="fs">
         <div class="fs_outer">
             <!-- 能hover的列表 -->
-            <div class="fs_list">
+            <div class="fs_list" @click="goSearch">
                 <div class="fs_list_menu">
                     <div class="fs_list_list" v-for="list in categoryList" :key="list.categoryId">
-                        <p>{{ list.categoryName }}</p>
+                        <a
+                            :data-categoryName="list.categoryName"
+                            :data-categoryId="list.categoryId"
+                            :data-categoryType="1"
+                        >
+                            {{ list.categoryName }}
+                        </a>
                         <div class="fs_list_item">
                             <dl class="fs_fore" v-for="child in list.categoryChild" :key="child.categoryId">
                                 <dt>
-                                    <a href="">{{ child.categoryName }}</a>
+                                    <a
+                                        :data-categoryName="child.categoryName"
+                                        :data-categoryId="child.categoryId"
+                                        :data-categoryType="2"
+                                    >
+                                        {{ child.categoryName }}
+                                    </a>
                                 </dt>
                                 <dd>
-                                    <em v-for="child in child.categoryChild" :key="child.categoryId">
-                                        <a href="">{{ child.categoryName }}</a>
+                                    <em v-for="children in child.categoryChild" :key="children.categoryId">
+                                        <a
+                                            :data-categoryName="children.categoryName"
+                                            :data-categoryId="children.categoryId"
+                                            :data-categoryType="3"
+                                        >
+                                            {{ children.categoryName }}
+                                        </a>
                                     </em>
                                 </dd>
                             </dl>
@@ -54,73 +72,45 @@
             </div>
 
             <div class="fs_col">
+                <div class="fs_user_info">
+                    <div class="fs_user_hi">
+                        <div class="fs_user_img"></div>
+                        <div class="fs_user_lr">
+                            <p>Hi~ 欢迎逛东京!</p>
+                            <p>
+                                <router-link to="/login">登录</router-link>
+                                |
+                                <a href="#">注册</a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="fs_user_plus">
+                        <div class="fs_user_newpeo">新人福利</div>
+                        <div class="fs_user_newplus">PLUS会员</div>
+                    </div>
+                </div>
                 <div class="fs_col_news">
                     <h4>东京快报</h4>
                     <ul>
                         <li>
-                            <a href="javascript:;">但为什么AirPods上市两年后</a>
+                            <a href="javascript:;">这是来自未来的手机</a>
                         </li>
                         <li>
-                            <a href="javascript:;">但为什么AirPods上市两年后</a>
+                            <a href="javascript:;">这是来自未来的手机</a>
                         </li>
                         <li>
-                            <a href="javascript:;">但为什么AirPods上市两年后</a>
+                            <a href="javascript:;">这是来自未来的手机</a>
                         </li>
                         <li>
-                            <a href="javascript:;">但为什么AirPods上市两年后</a>
+                            <a href="javascript:;">这是来自未来的手机</a>
                         </li>
                         <li>
-                            <a href="javascript:;">但为什么AirPods上市两年后</a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">但为什么AirPods上市两年后</a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">但为什么AirPods上市两年后</a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">但为什么AirPods上市两年后</a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">但为什么AirPods上市两年后</a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">但为什么AirPods上市两年后</a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">但为什么AirPods上市两年后</a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">但为什么AirPods上市两年后</a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">但为什么AirPods上市两年后</a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">但为什么AirPods上市两年后</a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">但为什么AirPods上市两年后</a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">但为什么AirPods上市两年后</a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">但为什么AirPods上市两年后</a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">但为什么AirPods上市两年后</a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">但为什么AirPods上市两年后</a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">但为什么AirPods上市两年后</a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">但为什么AirPods上市两年后</a>
+                            <a href="javascript:;">这是来自未来的手机</a>
                         </li>
                     </ul>
+                </div>
+                <div class="fs_col_icon">
+                    <img src="./images/iccoonn.jpg" alt="" />
                 </div>
             </div>
         </div>
@@ -128,24 +118,39 @@
 </template>
 
 <script>
-import { reqGetBaseCategoryList } from '@api/home'
+import { mapState, mapActions } from 'vuex'
 
 export default {
     name: 'TypeNav',
-    data() {
-        return {
-            categoryList: [],
-        }
+    computed: {
+        ...mapState({
+            categoryList: (state) => state.home.categoryList,
+        }),
     },
-
-    async mounted() {
-        const res = await reqGetBaseCategoryList()
-        this.categoryList = res
+    methods: {
+        ...mapActions(['getCategoryList']),
+        goSearch(e) {
+            const { categoryname, categoryid, categorytype } = e.target.dataset
+            if (!categoryname) return
+            this.$router.push({
+                name: 'search',
+                query: {
+                    categoryName: categoryname,
+                    [`category${categorytype}Id`]: categoryid,
+                },
+            })
+        },
+    },
+    mounted() {
+        this.getCategoryList()
     },
 }
 </script>
 
 <style lang="less" scoped>
+a {
+    cursor: pointer;
+}
 .fs {
     margin-top: 10px;
     height: 470px;
@@ -163,7 +168,6 @@ export default {
         height: 470px;
         background-color: #fff;
         padding-top: 10px;
-
         position: relative;
         .fs_list_list {
             transition: all 0.2s;
@@ -208,6 +212,10 @@ export default {
                                 content: ' / ';
                                 color: #999;
                             }
+                            a:hover {
+                                transition: all 0.5s;
+                                color: #e01414;
+                            }
                         }
                     }
                 }
@@ -238,7 +246,10 @@ export default {
             li {
                 width: 190px;
                 height: 150px;
-
+                &:hover {
+                    opacity: 0.6;
+                    transition: 0.5s;
+                }
                 img {
                     width: 190px;
                     height: 150px;
@@ -250,16 +261,18 @@ export default {
         width: 190px;
         height: 470px;
         box-sizing: border-box;
-        padding: 10px;
+        padding: 0 10px;
+        background-color: #ffffff;
         .fs_col_news {
             width: 170px;
-
+            height: 130px;
             // background-color: #999;
             box-sizing: border-box;
             padding: 0px 5px;
-            border-top: 1px solid black;
-            border-bottom: 1px solid #666;
+            border-top: 1px solid #999;
+            border-bottom: 1px solid #999;
             h4 {
+                padding: 4px 0;
                 font-size: 14px;
             }
             li {
@@ -268,6 +281,59 @@ export default {
                 a {
                     color: #666;
                 }
+            }
+        }
+        .fs_user_info {
+            height: 100px;
+            box-sizing: border-box;
+
+            .fs_user_hi {
+                box-sizing: border-box;
+                padding: 10px 10px;
+                height: 65px;
+
+                display: flex;
+                .fs_user_img {
+                    height: 40px;
+                    width: 40px;
+                    border-radius: 50%;
+                    background: url('./images/jdddddddd.jpg');
+                    background-size: 100%;
+                }
+                .fs_user_lr {
+                    padding-left: 10px;
+                }
+            }
+            .fs_user_plus {
+                height: 25px;
+                box-sizing: border-box;
+                display: flex;
+                cursor: pointer;
+                justify-content: space-evenly;
+
+                div {
+                    border-radius: 15px;
+                    line-height: 25px;
+                    text-align: center;
+                    height: 25px;
+                    width: 70px;
+                }
+                .fs_user_newpeo {
+                    background-color: #e01414;
+                    color: #fff;
+                }
+                .fs_user_newplus {
+                    background-color: #363634;
+                    color: #e5d790;
+                }
+            }
+        }
+        .fs_col_icon {
+            width: 190px;
+            height: 240px;
+            img {
+                width: 170px;
+                height: 240px;
             }
         }
     }

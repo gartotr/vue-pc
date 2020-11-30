@@ -32,7 +32,6 @@ export default {
         Brand,
         Floor,
         Like,
-
         Rank,
         TodayRecommend,
         TypeNav,

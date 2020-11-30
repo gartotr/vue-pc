@@ -162,7 +162,7 @@ export default {
         width: 504px;
         input {
             box-sizing: border-box;
-            height: 38px;
+            height: 32px;
             width: 438px;
             outline: none;
             border: 2px solid #e1251b;
@@ -170,7 +170,7 @@ export default {
         }
         #search {
             color: #fff;
-            height: 38px;
+            height: 32px;
             width: 64px;
             border: 2px solid #e1251b;
             border-left: none;
