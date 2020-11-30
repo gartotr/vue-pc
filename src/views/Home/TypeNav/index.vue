@@ -42,17 +42,8 @@
             <!-- 轮播图 -->
             <div class="fs_wrapper">
                 <ul class="fs_wrapper_inner">
-                    <li>
-                        <a href="javascript:;"><img src="./images/banner1.jpg" alt="" /></a>
-                    </li>
-                    <li>
-                        <a href="javascript:;"><img src="./images/banner2.jpg" alt="" /></a>
-                    </li>
-                    <li>
-                        <a href="javascript:;"><img src="./images/banner3.jpg" alt="" /></a>
-                    </li>
-                    <li>
-                        <a href="javascript:;"><img src="./images/banner4.jpg" alt="" /></a>
+                    <li v-for="imgs in banners" :key="imgs.id">
+                        <a href="javascript:;"><img :src="imgs.imgUrl" alt="" /></a>
                     </li>
                 </ul>
             </div>
@@ -113,10 +104,11 @@ export default {
     computed: {
         ...mapState({
             categoryList: (state) => state.home.categoryList,
+            banners: (state) => state.home.banners,
         }),
     },
     methods: {
-        ...mapActions(['getCategoryList']),
+        ...mapActions(['getCategoryList', 'getBanners']),
         goSearch(e) {
             const { categoryname, categoryid, categorytype } = e.target.dataset
 
@@ -142,6 +134,10 @@ export default {
     mounted() {
         if (this.categoryList.length) return
         this.getCategoryList()
+        this.getBanners()
+    },
+    beforeUpdate() {
+        console.log(this.banners)
     },
 }
 </script>
