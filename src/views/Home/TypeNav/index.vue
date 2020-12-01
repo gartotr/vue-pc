@@ -41,11 +41,11 @@
             </div>
             <!-- 轮播图 -->
             <div class="fs_wrapper">
-                <ul class="fs_wrapper_inner">
-                    <li v-for="imgs in banners" :key="imgs.id">
+                <el-carousel class="fs_wrapper_inner" height="470px" :interval="1500">
+                    <el-carousel-item class="fs_wrapper_imggs" v-for="imgs in banners" :key="imgs.id">
                         <a href="javascript:;"><img :src="imgs.imgUrl" alt="" /></a>
-                    </li>
-                </ul>
+                    </el-carousel-item>
+                </el-carousel>
             </div>
             <!-- 三张图 -->
             <div class="fs_slider">
@@ -105,10 +105,11 @@ export default {
         ...mapState({
             categoryList: (state) => state.home.categoryList,
             banners: (state) => state.home.banners,
+            quickNews: (state) => state.home.quickNews,
         }),
     },
     methods: {
-        ...mapActions(['getCategoryList', 'getBanners']),
+        ...mapActions(['getCategoryList', 'getBanners', 'getQuickNews']),
         goSearch(e) {
             const { categoryname, categoryid, categorytype } = e.target.dataset
 
@@ -135,9 +136,10 @@ export default {
         if (this.categoryList.length) return
         this.getCategoryList()
         this.getBanners()
+        this.getQuickNews()
     },
     beforeUpdate() {
-        console.log(this.banners)
+        console.log(this)
     },
 }
 </script>
@@ -340,7 +342,7 @@ a {
 .fs_wrapper_inner {
     background-color: #e01414;
     position: relative;
-    li {
+    .fs_wrapper_imggs {
         position: absolute;
         display: flex;
         font-size: 0;
@@ -350,4 +352,6 @@ a {
         }
     }
 }
+
+/* 轮播 */
 </style>

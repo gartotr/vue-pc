@@ -14,3 +14,10 @@ export const reqGetBanners = () => {
         url: '/banners',
     })
 }
+/* 快报 */
+export const reqGetQuickNews = () => {
+    return mockRequest({
+        method: 'GET',
+        url: '/quickNews',
+    })
+}
