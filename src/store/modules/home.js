@@ -1,10 +1,11 @@
-import { reqGetBaseCategoryList, reqGetBanners, reqGetQuickNews } from '@api/home'
+import { reqGetBaseCategoryList, reqGetBanners, reqGetQuickNews, reqGetSeckillImg } from '@api/home'
 //获取三级分类的list
 export default {
     state: {
         categoryList: [],
         banners: [],
         quickNews: [],
+        seckillImg: [],
     },
     getters: {},
     actions: {
@@ -23,6 +24,10 @@ export default {
             const quickNews = await reqGetQuickNews()
             commit('GET_QUICK_NEWS', quickNews)
         },
+        async getSeckillImg({ commit }) {
+            const seckillImg = await reqGetSeckillImg()
+            commit('GET_SECKIL_IMG', seckillImg)
+        },
     },
     mutations: {
         GET_CATEGORY_LIST(state, categoryList) {
@@ -33,6 +38,9 @@ export default {
         },
         GET_QUICK_NEWS(state, quickNews) {
             state.quickNews = quickNews
+        },
+        GET_SECKIL_IMG(state, seckillImg) {
+            state.seckillImg = seckillImg
         },
     },
 }

@@ -21,3 +21,10 @@ export const reqGetQuickNews = () => {
         url: '/quickNews',
     })
 }
+/* 秒杀 */
+export const reqGetSeckillImg = () => {
+    return mockRequest({
+        method: 'GET',
+        url: '/seckillImg',
+    })
+}

@@ -51,9 +51,9 @@
             </div>
             <!-- nav们 -->
             <div class="header_nav">
-                <div class="header_nav_left" @mouseenter="isSearchShow = true" @mouseleave="isSearchShow = false">
+                <div class="header_nav_left" @mouseenter="isHeaderShow = false" @mouseleave="isHeaderShow = true">
                     全部商品分类
-                    <List v-if="!isHeaderShow || isSearchShow"></List>
+                    <List v-show="!isHeaderShow && this.$route.path !== '/'"></List>
                 </div>
                 <ul>
                     <li>
@@ -102,7 +102,6 @@ export default {
             isHeaderShow: this.$route.path === '/',
             searchText: '',
             isShow: false,
-            isSearchShow: false,
         }
     },
     methods: {
@@ -134,6 +133,10 @@ export default {
         List,
     },
     mounted() {
+        if (this.$route.path === '/search') {
+            this.isHeaderShow = true
+        }
+
         console.log(this.$route.path)
     },
 }
