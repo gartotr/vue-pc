@@ -21,7 +21,6 @@ export default {
         //快报
         async getQuickNews({ commit }) {
             const quickNews = await reqGetQuickNews()
-            console.log(quickNews)
             commit('GET_QUICK_NEWS', quickNews)
         },
     },

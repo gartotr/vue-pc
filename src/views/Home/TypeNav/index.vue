@@ -2,50 +2,15 @@
     <div class="fs">
         <div class="fs_outer">
             <!-- 能hover的列表 -->
-            <div class="fs_list" @click="goSearch">
-                <div class="fs_list_menu">
-                    <div class="fs_list_list" v-for="list in categoryList" :key="list.categoryId">
-                        <a
-                            :data-categoryName="list.categoryName"
-                            :data-categoryId="list.categoryId"
-                            :data-categoryType="1"
-                        >
-                            {{ list.categoryName }}
-                        </a>
-                        <div class="fs_list_item">
-                            <dl class="fs_fore" v-for="child in list.categoryChild" :key="child.categoryId">
-                                <dt>
-                                    <a
-                                        :data-categoryName="child.categoryName"
-                                        :data-categoryId="child.categoryId"
-                                        :data-categoryType="2"
-                                    >
-                                        {{ child.categoryName }}
-                                    </a>
-                                </dt>
-                                <dd>
-                                    <em v-for="children in child.categoryChild" :key="children.categoryId">
-                                        <a
-                                            :data-categoryName="children.categoryName"
-                                            :data-categoryId="children.categoryId"
-                                            :data-categoryType="3"
-                                        >
-                                            {{ children.categoryName }}
-                                        </a>
-                                    </em>
-                                </dd>
-                            </dl>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <List></List>
             <!-- 轮播图 -->
             <div class="fs_wrapper">
-                <el-carousel class="fs_wrapper_inner" height="470px" :interval="1500">
+                <!-- <el-carousel class="fs_wrapper_inner" height="470px" :interval="1500">
                     <el-carousel-item class="fs_wrapper_imggs" v-for="imgs in banners" :key="imgs.id">
                         <a href="javascript:;"><img :src="imgs.imgUrl" alt="" /></a>
                     </el-carousel-item>
-                </el-carousel>
+                </el-carousel> -->
+                <Carousel :carouselList="banners" />
             </div>
             <!-- 三张图 -->
             <div class="fs_slider">
@@ -83,8 +48,8 @@
                 <div class="fs_col_news">
                     <h4>东京快报</h4>
                     <ul>
-                        <li>
-                            <a href="javascript:;">但为什么AirPods上市两年后</a>
+                        <li v-for="news in quickNews" :key="news.id">
+                            <a href="javascript:;">{{ news.quickNews }}</a>
                         </li>
                     </ul>
                 </div>
@@ -97,57 +62,38 @@
 </template>
 
 <script>
+import List from '@comps/List'
 import { mapState, mapActions } from 'vuex'
+import Swiper, { Navigation, Pagination } from 'swiper'
+import 'swiper/swiper-bundle.min.css'
+
+import Carousel from '@comps/Carousel'
+
+Swiper.use([Navigation, Pagination])
 
 export default {
     name: 'TypeNav',
     computed: {
         ...mapState({
-            categoryList: (state) => state.home.categoryList,
             banners: (state) => state.home.banners,
             quickNews: (state) => state.home.quickNews,
         }),
     },
     methods: {
-        ...mapActions(['getCategoryList', 'getBanners', 'getQuickNews']),
-        goSearch(e) {
-            const { categoryname, categoryid, categorytype } = e.target.dataset
-
-            if (!categoryname) return
-            const location = {
-                name: 'search',
-                query: {
-                    categoryName: categoryname,
-                    [`category${categorytype}Id`]: categoryid,
-                },
-            }
-            const { searchText } = this.$route.params
-
-            if (searchText) {
-                location.params = {
-                    searchText,
-                }
-            }
-
-            this.$router.push(location)
-        },
+        ...mapActions(['getBanners', 'getQuickNews']),
     },
-    mounted() {
-        if (this.categoryList.length) return
-        this.getCategoryList()
-        this.getBanners()
+    async mounted() {
+        await this.getBanners()
         this.getQuickNews()
     },
-    beforeUpdate() {
-        console.log(this)
+    components: {
+        Carousel,
+        List,
     },
 }
 </script>
 
 <style lang="less" scoped>
-a {
-    cursor: pointer;
-}
 .fs {
     margin-top: 10px;
     height: 470px;
@@ -159,75 +105,7 @@ a {
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
-    .fs_list {
-        box-sizing: border-box;
-        width: 190px;
-        height: 470px;
-        background-color: #fff;
-        padding-top: 10px;
-        position: relative;
-        a {
-            color: #636363;
-        }
-        .fs_list_list {
-            transition: all 0.2s;
-            font-size: 14px;
-            height: 27px;
-            line-height: 27px;
-            padding-left: 16px;
-            .fs_list_item {
-                box-sizing: border-box;
-                width: 600px;
-                height: 470px;
-                background-color: #fff;
-                position: absolute;
-                left: 190px;
-                top: 0;
-                padding: 16px;
-                box-shadow: 2px -2px 4px rgb(184, 184, 184);
-                display: none;
-                z-index: 999;
-                .fs_fore {
-                    display: flex;
-                    dt {
-                        line-height: 16px;
-                        margin: 5px 10px 5px 5px;
-                        font-weight: bold;
-                        font-size: 12px;
-                        box-sizing: border-box;
-                        a {
-                            color: #333333;
-                        }
-                        &:after {
-                            content: ' > ';
-                        }
-                    }
-                    dd {
-                        line-height: 18px;
-                        margin: 5px 10px 5px 5px;
-                        em {
-                            margin: 0 2px;
-                            font-size: 12px;
-                            &:after {
-                                content: ' / ';
-                                color: #999;
-                            }
-                            a:hover {
-                                transition: all 0.5s;
-                                color: #e01414;
-                            }
-                        }
-                    }
-                }
-            }
-            &:hover .fs_list_item {
-                display: block;
-            }
-            &:hover {
-                background-color: #d9d9d9;
-            }
-        }
-    }
+
     .fs_wrapper {
         width: 590px;
         height: 470px;
@@ -261,16 +139,16 @@ a {
         width: 190px;
         height: 470px;
         box-sizing: border-box;
-        padding: 0 10px;
+        // padding: 0 10px;
         background-color: #ffffff;
         .fs_col_news {
             width: 170px;
             height: 130px;
             // background-color: #999;
             box-sizing: border-box;
-            padding: 0px 5px;
-            border-top: 1px solid #999;
-            border-bottom: 1px solid #999;
+            padding: 0px 12px;
+            // border-top: 1px solid #999;
+            // border-bottom: 1px solid #999;
             h4 {
                 padding: 10px 0;
                 font-size: 14px;
@@ -335,20 +213,6 @@ a {
                 width: 190px;
                 height: 240px;
             }
-        }
-    }
-}
-
-.fs_wrapper_inner {
-    background-color: #e01414;
-    position: relative;
-    .fs_wrapper_imggs {
-        position: absolute;
-        display: flex;
-        font-size: 0;
-        img {
-            width: 590px;
-            height: 470px;
         }
     }
 }

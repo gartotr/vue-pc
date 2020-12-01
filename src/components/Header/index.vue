@@ -51,6 +51,10 @@
             </div>
             <!-- nav们 -->
             <div class="header_nav">
+                <div class="header_nav_left" @mouseenter="isSearchShow = true" @mouseleave="isSearchShow = false">
+                    全部商品分类
+                    <List v-if="!isHeaderShow || isSearchShow"></List>
+                </div>
                 <ul>
                     <li>
                         <a href="javascript:;">秒杀</a>
@@ -89,12 +93,16 @@
 </template>
 
 <script>
+import List from '@comps/List'
+
 export default {
     name: 'Header',
     data() {
         return {
+            isHeaderShow: this.$route.path === '/',
             searchText: '',
             isShow: false,
+            isSearchShow: false,
         }
     },
     methods: {
@@ -121,6 +129,12 @@ export default {
                 .then(() => {})
                 .catch(() => {})
         },
+    },
+    components: {
+        List,
+    },
+    mounted() {
+        console.log(this.$route.path)
     },
 }
 </script>
@@ -170,7 +184,12 @@ export default {
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
-
+    .header_logo {
+        height: 100px;
+        img {
+            height: 100px;
+        }
+    }
     .header_search {
         margin-top: 40px;
         width: 504px;
@@ -226,6 +245,20 @@ export default {
     bottom: 0;
     left: 50%;
     margin-left: -400px;
+    .header_nav_left {
+        width: 190px;
+        height: 40px;
+        background-color: #e1251b;
+        position: absolute;
+        left: 0;
+        top: 0;
+        margin-left: -195px;
+        color: #fff;
+        font-size: 15px;
+        font-weight: bold;
+        line-height: 40px;
+        text-align: center;
+    }
     ul {
         display: flex;
         font-size: 15px;
