@@ -133,7 +133,7 @@ export default {
         List,
     },
     mounted() {
-        if (this.$route.path === '/search') {
+        if (this.$route.path.includes('/search')) {
             this.isHeaderShow = true
         }
 

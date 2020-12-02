@@ -74,8 +74,7 @@
                                             href="item.html"
                                             title="促销信息，下单即赠送三个月CIBN视频会员卡！【小米电视新品4A 58 火爆预约中】"
                                         >
-                                            Apple苹果iPhone 6s (A1699)Apple苹果iPhone 6s (A1699)Apple苹果iPhone 6s
-                                            (A1699)Apple苹果iPhone 6s (A1699)
+                                            {{ goods.title }}
                                         </a>
                                     </div>
                                     <div class="commit">
@@ -140,14 +139,49 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default {
     name: 'Search',
+    data() {
+        return {
+            options: {
+                category1Id: '', // 一级分类id
+                category2Id: '', // 二级分类id
+                category3Id: '', // 三级分类id
+                categoryName: '', // 分类名称
+                keyword: '', // 搜索内容（搜索关键字）
+                order: '', // 排序方式：1：综合排序  2：价格排序   asc 升序  desc 降序
+                pageNo: 1, // 分页的页码（第几页）
+                pageSize: 5, // 分页的每页商品数量
+                props: [], // 商品属性
+                trademark: '', // 品牌
+            },
+        }
+    },
+    watch: {
+        $route() {
+            this.updataProductList()
+        },
+    },
     computed: {
         ...mapGetters(['goodsList']),
     },
     methods: {
         ...mapActions(['getProductList']),
+        updataProductList() {
+            const { searchText: keyword } = this.$route.params
+            const { categoryName, category1Id, category2Id, category3Id } = this.$route.query
+            const options = {
+                ...this.options,
+                keyword,
+                categoryName,
+                category1Id,
+                category2Id,
+                category3Id,
+            }
+            this.getProductList(options)
+        },
     },
     mounted() {
-        this.getProductList()
+        console.log(this.$route.query)
+        this.updataProductList()
     },
     components: {
         SearchSelector,
