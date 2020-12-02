@@ -38,7 +38,7 @@
                         </router-link>
                     </h1>
                     <div class="header_search">
-                        <input type="text" v-model="searchText" />
+                        <input type="text" v-model="searchText" @keydown.enter="search" />
                         <button id="search" @click="search">搜索</button>
                     </div>
                     <div class="header_shopping">
@@ -122,11 +122,16 @@ export default {
             if (categoryName) {
                 location.query = this.$route.query
             }
+            if (this.$route.name === 'search') {
+                this.$router.replace(location)
+            } else {
+                this.$router.push(location)
+            }
 
-            this.$router
+            /*    this.$router
                 .push(location)
                 .then(() => {})
-                .catch(() => {})
+                .catch(() => {}) */
         },
     },
     components: {
@@ -136,8 +141,12 @@ export default {
         if (this.$route.path.includes('/search')) {
             this.isHeaderShow = true
         }
-
-        console.log(this.$route.path)
+        this.$bus.$on('clearKeyword', () => {
+            this.searchText = ''
+        })
+        if (this.$route.path === '/') {
+            this.$bus.$emit('clearKeyword')
+        }
     },
 }
 </script>

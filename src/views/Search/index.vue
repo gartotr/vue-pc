@@ -10,18 +10,13 @@
                         </li>
                     </ul>
                     <ul class="fl sui-tag">
-                        <li class="with-x">手机</li>
-                        <li class="with-x">
-                            iphone
-                            <i>×</i>
+                        <li class="with-x" v-show="options.keyword">
+                            {{ options.keyword }}
+                            <i @click="delKeyword">×</i>
                         </li>
-                        <li class="with-x">
-                            华为
-                            <i>×</i>
-                        </li>
-                        <li class="with-x">
-                            OPPO
-                            <i>×</i>
+                        <li class="with-x" v-show="options.categoryName">
+                            {{ options.categoryName }}
+                            <i @click="delCategoryName">×</i>
                         </li>
                     </ul>
                 </div>
@@ -177,10 +172,30 @@ export default {
                 category3Id,
             }
             this.getProductList(options)
+            this.options = options
+        },
+        delKeyword() {
+            this.options.keyword = ''
+            this.$router.push({
+                name: 'search',
+                query: this.$route.query,
+            })
+            this.$bus.$emit('clearKeyword')
+        },
+        delCategoryName() {
+            this.options.categoryName = ''
+            this.options.category1Id = ''
+            this.options.category2Id = ''
+            this.options.category3Id = ''
+
+            this.$router.push({
+                name: 'search',
+                params: this.$route.params,
+            })
+            this.$bus.$emit('clearKeyword')
         },
     },
     mounted() {
-        console.log(this.$route.query)
         this.updataProductList()
     },
     components: {
