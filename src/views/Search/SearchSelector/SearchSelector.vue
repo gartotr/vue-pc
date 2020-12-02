@@ -4,7 +4,13 @@
             <div class="fl key brand">品牌</div>
             <div class="value logos">
                 <ul class="logo-list">
-                    <li v-for="trademark in trademarkList" :key="trademark.tmId">{{ trademark.tmName }}</li>
+                    <li
+                        v-for="trademark in trademarkList"
+                        :key="trademark.tmId"
+                        @click="addTrademark(`${trademark.tmId}:${trademark.tmName}`)"
+                    >
+                        {{ trademark.tmName }}
+                    </li>
                 </ul>
             </div>
             <div class="ext">
@@ -31,6 +37,9 @@ import { mapGetters } from 'vuex'
 
 export default {
     name: 'SearchSelector',
+    props: {
+        addTrademark: Function,
+    },
     computed: {
         ...mapGetters(['trademarkList', 'attrsList']),
     },

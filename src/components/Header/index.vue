@@ -123,9 +123,15 @@ export default {
                 location.query = this.$route.query
             }
             if (this.$route.name === 'search') {
-                this.$router.replace(location)
+                this.$router
+                    .replace(location)
+                    .then(() => {})
+                    .catch(() => {})
             } else {
-                this.$router.push(location)
+                this.$router
+                    .push(location)
+                    .then(() => {})
+                    .catch(() => {})
             }
 
             /*    this.$router

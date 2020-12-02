@@ -11,18 +11,22 @@
                     </ul>
                     <ul class="fl sui-tag">
                         <li class="with-x" v-show="options.keyword">
-                            {{ options.keyword }}
+                            关键字: {{ options.keyword }}
                             <i @click="delKeyword">×</i>
                         </li>
                         <li class="with-x" v-show="options.categoryName">
-                            {{ options.categoryName }}
+                            分类: {{ options.categoryName }}
                             <i @click="delCategoryName">×</i>
+                        </li>
+                        <li class="with-x" v-show="options.trademark">
+                            品牌: {{ options.trademark.split(':')[1] }}
+                            <i @click="delTrademark">×</i>
                         </li>
                     </ul>
                 </div>
 
                 <!--selector-->
-                <SearchSelector />
+                <SearchSelector :addTrademark="addTrademark" />
 
                 <!--details-->
                 <div class="details clearfix">
@@ -55,7 +59,9 @@
                             <li class="yui3-u-1-5" v-for="goods in goodsList" :key="goods.id">
                                 <div class="list-wrap">
                                     <div class="p-img">
-                                        <a href="item.html" target="_blank"><img :src="goods.defaultImg" /></a>
+                                        <a href="item.html" target="_blank">
+                                            <img :src="goods.defaultImg" />
+                                        </a>
                                     </div>
                                     <div class="price">
                                         <strong>
@@ -87,7 +93,9 @@
                                         >
                                             加入购物车
                                         </a>
-                                        <a href="javascript:void(0);" class="sui-btn btn-bordered">收藏</a>
+                                        <a href="javascript:void(0);" class="sui-btn btn-bordered">
+                                            收藏
+                                        </a>
                                     </div>
                                 </div>
                             </li>
@@ -194,10 +202,19 @@ export default {
             })
             this.$bus.$emit('clearKeyword')
         },
+        addTrademark(trademark) {
+            this.options.trademark = trademark
+            this.updataProductList()
+        },
+        delTrademark() {
+            this.options.trademark = ''
+            this.updataProductList()
+        },
     },
     mounted() {
         this.updataProductList()
     },
+
     components: {
         SearchSelector,
     },
