@@ -8,6 +8,7 @@ import store from './store'
 import './styles/reset.css'
 import 'element-ui/lib/theme-chalk/index.css'
 import './styles/style.less'
+import './styles/element-variables.scss'
 
 //测试用的mock 启动mock服务器
 import './mock/mockServer'

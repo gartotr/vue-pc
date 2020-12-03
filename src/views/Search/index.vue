@@ -22,19 +22,41 @@
                             品牌: {{ options.trademark.split(':')[1] }}
                             <i @click="delTrademark">×</i>
                         </li>
+
+                        <li
+                            class="with-x"
+                            v-for="(prop, index) in options.props"
+                            :key="prop"
+                            @click="delProps(index)"
+                        >
+                            {{ prop.split(':')[2] }}: {{ prop.split(':')[1] }}
+                            <i>×</i>
+                        </li>
                     </ul>
                 </div>
 
                 <!--selector-->
-                <SearchSelector :addTrademark="addTrademark" />
+                <SearchSelector :addTrademark="addTrademark" @add-prop="addProp" />
 
                 <!--details-->
                 <div class="details clearfix">
                     <div class="sui-navbar">
                         <div class="navbar-inner filter">
                             <ul class="sui-nav">
-                                <li class="active">
-                                    <a href="#">综合</a>
+                                <li
+                                    :class="{ active: options.order.indexOf('1') > -1 }"
+                                    @click="setOrder('1')"
+                                >
+                                    <a>
+                                        综合
+                                        <i
+                                            :class="{
+                                                iconfont: true,
+                                                'icon-jiantoushangsheng': isAllDown,
+                                                'icon-jiantouxiajiang': !isAllDown,
+                                            }"
+                                        ></i>
+                                    </a>
                                 </li>
                                 <li>
                                     <a href="#">销量</a>
@@ -45,11 +67,33 @@
                                 <li>
                                     <a href="#">评价</a>
                                 </li>
-                                <li>
-                                    <a href="#">价格⬆</a>
-                                </li>
-                                <li>
-                                    <a href="#">价格⬇</a>
+                                <li
+                                    :class="{ active: options.order.indexOf('2') > -1 }"
+                                    @click="setOrder('2')"
+                                >
+                                    <a>
+                                        价格
+                                        <span>
+                                            <i
+                                                :class="{
+                                                    iconfont: true,
+                                                    'icon-jiantoushang': true,
+                                                    deactive:
+                                                        options.order.indexOf('2') > -1 &&
+                                                        isPriceDown,
+                                                }"
+                                            ></i>
+                                            <i
+                                                :class="{
+                                                    iconfont: true,
+                                                    'icon-jiantouxia': true,
+                                                    deactive:
+                                                        options.order.indexOf('2') > -1 &&
+                                                        !isPriceDown,
+                                                }"
+                                            ></i>
+                                        </span>
+                                    </a>
                                 </li>
                             </ul>
                         </div>
@@ -101,35 +145,18 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="fr page">
-                        <div class="sui-pagination clearfix">
-                            <ul>
-                                <li class="prev disabled">
-                                    <a href="#">«上一页</a>
-                                </li>
-                                <li class="active">
-                                    <a href="#">1</a>
-                                </li>
-                                <li>
-                                    <a href="#">2</a>
-                                </li>
-                                <li>
-                                    <a href="#">3</a>
-                                </li>
-                                <li>
-                                    <a href="#">4</a>
-                                </li>
-                                <li>
-                                    <a href="#">5</a>
-                                </li>
-                                <li class="dotted"><span>...</span></li>
-                                <li class="next">
-                                    <a href="#">下一页»</a>
-                                </li>
-                            </ul>
-                            <div><span>共10页&nbsp;</span></div>
-                        </div>
-                    </div>
+                    <el-pagination
+                        id="pagination"
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page="options.pageNo"
+                        :pager-count="7"
+                        :page-sizes="[5, 10, 15, 20]"
+                        :page-size="5"
+                        background
+                        layout=" prev, pager,  next, total, sizes, jumper"
+                        :total="total"
+                    ></el-pagination>
                 </div>
             </div>
         </div>
@@ -150,12 +177,14 @@ export default {
                 category3Id: '', // 三级分类id
                 categoryName: '', // 分类名称
                 keyword: '', // 搜索内容（搜索关键字）
-                order: '', // 排序方式：1：综合排序  2：价格排序   asc 升序  desc 降序
+                order: '1:desc', // 排序方式：1：综合排序  2：价格排序   asc 升序  desc 降序
                 pageNo: 1, // 分页的页码（第几页）
                 pageSize: 5, // 分页的每页商品数量
                 props: [], // 商品属性
                 trademark: '', // 品牌
             },
+            isAllDown: true,
+            isPriceDown: false,
         }
     },
     watch: {
@@ -164,7 +193,7 @@ export default {
         },
     },
     computed: {
-        ...mapGetters(['goodsList']),
+        ...mapGetters(['goodsList', 'total']),
     },
     methods: {
         ...mapActions(['getProductList']),
@@ -203,11 +232,50 @@ export default {
             this.$bus.$emit('clearKeyword')
         },
         addTrademark(trademark) {
+            console.log(2)
             this.options.trademark = trademark
             this.updataProductList()
         },
         delTrademark() {
             this.options.trademark = ''
+            this.updataProductList()
+        },
+        addProp(prop) {
+            this.options.props.push(prop)
+            this.updataProductList()
+        },
+        delProps(index) {
+            this.options.props.splice(index, 1)
+            this.updataProductList()
+        },
+        setOrder(order) {
+            let [orderNum, orderType] = this.options.order.split(':')
+
+            if (orderNum === order) {
+                if (order === '1') {
+                    this.isAllDown = !this.isAllDown
+                } else {
+                    this.isPriceDown = !this.isPriceDown
+                }
+                orderType = orderType === 'desc' ? 'asc' : 'desc'
+            } else {
+                if (order === '1') {
+                    orderType = this.isAllDown ? 'desc' : 'asc'
+                } else {
+                    this.isPriceDown = false
+                    orderType = 'asc'
+                }
+            }
+
+            this.options.order = `${order}:${orderType}`
+        },
+
+        handleCurrentChange(pageNo) {
+            this.options.pageNo = pageNo
+            this.updataProductList()
+        },
+        handleSizeChange(pageSize) {
+            this.options.pageSize = pageSize
             this.updataProductList()
         },
     },
@@ -321,15 +389,31 @@ export default {
                         li {
                             float: left;
                             line-height: 18px;
-
                             a {
-                                display: block;
+                                display: flex;
+                                justify-content: space-around;
+                                align-items: center;
                                 cursor: pointer;
                                 padding: 11px 15px;
                                 color: #777;
                                 text-decoration: none;
-                            }
 
+                                i {
+                                    padding-left: 5px;
+                                }
+                                span {
+                                    display: flex;
+                                    flex-direction: column;
+                                    line-height: 8px;
+                                    i {
+                                        margin: 1px 0;
+                                        font-size: 12px;
+                                        &.deactive {
+                                            color: rgba(255, 255, 255, 0.5);
+                                        }
+                                    }
+                                }
+                            }
                             &.active {
                                 a {
                                     background: #e1251b;
@@ -552,5 +636,8 @@ export default {
             }
         }
     }
+}
+#pagination {
+    margin-left: 30%;
 }
 </style>

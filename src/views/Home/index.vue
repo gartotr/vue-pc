@@ -27,7 +27,7 @@ import Rank from './Rank/Rank'
 import TodayRecommend from './TodayRecommend/TodayRecommend'
 
 export default {
-    name: 'Register',
+    name: 'Home',
     components: {
         Brand,
         Floor,
