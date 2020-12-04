@@ -125,6 +125,15 @@ export default {
             this.myCurrentPage = currentPage
         },
     },
+    watch: {
+        //变化的时候  加载最新的数据 更新网页
+        myCurrentPage(currentPage) {
+            this.$emit('current-change', currentPage)
+        },
+        currentPage(currentPage) {
+            this.myCurrentPage = currentPage
+        },
+    },
 }
 </script>
 
