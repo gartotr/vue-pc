@@ -6,6 +6,7 @@ import ElementUI from 'element-ui'
 import store from './store'
 
 import './styles/reset.css'
+import 'swiper/swiper-bundle.min.css'
 import 'element-ui/lib/theme-chalk/index.css'
 import './styles/style.less'
 import './styles/element-variables.scss'

@@ -4,7 +4,11 @@
             <!-- 顶部 -->
             <div class="header_shortcut">
                 <div class="shortcut w">
-                    <div class="header_city" @mouseenter="isShow = true" @mouseleave="isShow = false">
+                    <div
+                        class="header_city"
+                        @mouseenter="isShow = true"
+                        @mouseleave="isShow = false"
+                    >
                         <i class="iconfont icon-ditu"></i>
                         <a href="javascript:;">广东</a>
                         <div class="all_city" v-show="isShow"></div>
@@ -51,7 +55,11 @@
             </div>
             <!-- nav们 -->
             <div class="header_nav">
-                <div class="header_nav_left" @mouseenter="isHeaderShow = false" @mouseleave="isHeaderShow = true">
+                <div
+                    class="header_nav_left"
+                    @mouseenter="isHeaderShow = false"
+                    @mouseleave="isHeaderShow = true"
+                >
                     全部商品分类
                     <List v-show="!isHeaderShow && this.$route.path !== '/'"></List>
                 </div>
@@ -144,7 +152,7 @@ export default {
         List,
     },
     mounted() {
-        if (this.$route.path.includes('/search')) {
+        if (this.$route.path.includes('/search') || this.$route.path.includes('/detail')) {
             this.isHeaderShow = true
         }
         this.$bus.$on('clearKeyword', () => {
