@@ -6,6 +6,8 @@ import Home from '../views/Home'
 import Login from '../views/Login'
 import Register from '../views/Register'
 import Detail from '../views/Detail'
+import AddCartSuccess from '../views/Detail'
+import ShopCart from '../views/Detail'
 // 重写push和replace方法
 // 目的：为了让编程式导航重复点击时不报错~
 /* const push = VueRouter.prototype.push
@@ -59,6 +61,16 @@ export default new VueRouter({
         {
             path: '/detail/:id',
             component: Detail,
+        },
+        {
+            name: 'addcartsuccess',
+            path: '/addcartsuccess',
+            component: AddCartSuccess,
+        },
+        {
+            name: 'shopcart',
+            path: '/shopcart',
+            component: ShopCart,
         },
     ],
 })

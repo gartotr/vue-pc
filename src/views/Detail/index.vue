@@ -15,9 +15,21 @@
                 <!-- 左侧放大镜区域 -->
                 <div class="previewWrap">
                     <!--放大镜效果-->
-                    <Zoom />
+                    <Zoom
+                        :imgUrl="
+                            skuInfo.skuImageList[currentImgIndex] &&
+                            skuInfo.skuImageList[currentImgIndex].imgUrl
+                        "
+                        :bigImgUrl="
+                            skuInfo.skuImageList[currentImgIndex] &&
+                            skuInfo.skuImageList[currentImgIndex].imgUrl
+                        "
+                    />
                     <!-- 小图列表 -->
-                    <ImageList :skuImageList="skuInfo.skuImageList" />
+                    <ImageList
+                        :skuImageList="skuInfo.skuImageList"
+                        :updateCurrentImgIndex="updateCurrentImgIndex"
+                    />
                 </div>
                 <!-- 右侧选择区域布局 -->
                 <div class="InfoWrap">
@@ -84,9 +96,13 @@
                         </div>
                         <div class="cartWrap">
                             <div class="controls">
-                                <input autocomplete="off" class="itxt" />
-                                <a href="javascript:" class="plus">+</a>
-                                <a href="javascript:" class="mins">-</a>
+                                <el-input-number
+                                    v-model="num"
+                                    controls-position="right"
+                                    @change="handleChange"
+                                    :min="1"
+                                    :max="50"
+                                ></el-input-number>
                             </div>
                             <div class="add">
                                 <a href="javascript:">加入购物车</a>
@@ -335,11 +351,20 @@ import Zoom from './Zoom/Zoom'
 
 export default {
     name: 'Detail',
+    data() {
+        return {
+            currentImgIndex: 0, // 当前选中图片的下标
+            num: 1,
+        }
+    },
     computed: {
         ...mapGetters(['categoryView', 'skuInfo', 'spuSaleAttrList']),
     },
     methods: {
         ...mapActions(['getProductDetail']),
+        updateCurrentImgIndex(index) {
+            this.currentImgIndex = index
+        },
     },
     mounted() {
         this.getProductDetail(this.$route.params.id)
@@ -556,6 +581,7 @@ export default {
 
                         .add {
                             float: left;
+                            margin-left: 120px;
 
                             a {
                                 background-color: #e1251b;
