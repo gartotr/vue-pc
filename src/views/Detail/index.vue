@@ -97,14 +97,13 @@
                         <div class="cartWrap">
                             <div class="controls">
                                 <el-input-number
-                                    v-model="num"
+                                    v-model="skuNum"
                                     controls-position="right"
-                                    @change="handleChange"
                                     :min="1"
-                                    :max="50"
+                                    :max="100"
                                 ></el-input-number>
                             </div>
-                            <div class="add">
+                            <div class="add" @click="addCart">
                                 <a href="javascript:">加入购物车</a>
                             </div>
                         </div>
@@ -354,16 +353,27 @@ export default {
     data() {
         return {
             currentImgIndex: 0, // 当前选中图片的下标
-            num: 1,
+            skuNum: 1,
         }
     },
     computed: {
         ...mapGetters(['categoryView', 'skuInfo', 'spuSaleAttrList']),
     },
     methods: {
-        ...mapActions(['getProductDetail']),
+        ...mapActions(['getProductDetail', 'updateCartCount']),
         updateCurrentImgIndex(index) {
             this.currentImgIndex = index
+        },
+        async addCart() {
+            try {
+                await this.updateCartCount({
+                    skuId: this.skuInfo.id,
+                    skuNum: this.skuNum,
+                })
+                this.$router.push(`/addcartsuccess?skuNum=${this.skuNum}`)
+            } catch (e) {
+                console.log(e)
+            }
         },
     },
     mounted() {

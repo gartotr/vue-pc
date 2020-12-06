@@ -17,7 +17,7 @@
                         <router-link to="/login" id="user_login">你好,请登录</router-link>
                         <router-link to="/register">免费注册</router-link>
                         <span>|</span>
-                        <router-link to="###">我的订单</router-link>
+                        <router-link to="/shopcart">我的购物车</router-link>
                         <span>|</span>
                         <router-link to="###">我的东京</router-link>
                         <span>|</span>
