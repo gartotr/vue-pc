@@ -1,6 +1,6 @@
 <template>
-    <div class="spec-preview">
-        <img :src="imgUrl" />
+    <div class="spec-preview" @mousemove="moveImg">
+        <img :src="imgUrl" id="small" />
         <div class="event"></div>
         <div class="big">
             <img :src="bigImgUrl" />
@@ -16,6 +16,37 @@ export default {
         imgUrl: String,
         bigImgUrl: String,
     },
+    data() {
+        return {
+            topStyle: {
+                transform: '',
+            },
+        }
+    },
+    methods: {
+        moveImg() {
+            const mask = document.querySelector('.mask')
+            const big = document.querySelector('.big img')
+
+            let x = event.offsetX
+            let y = event.offsetY
+
+            let topX = x - 100 < 0 ? 0 : x - 100
+            let topY = y - 100 < 0 ? 0 : y - 100
+            if (topX >= 200) {
+                topX = 200
+            }
+            if (topY >= 200) {
+                topY = 200
+            }
+            mask.style.left = topX + 'px'
+            mask.style.top = topY + 'px'
+
+            big.style.left = -topX * 2 + 'px'
+            big.style.top = -topY * 2 + 'px'
+        },
+    },
+    mounted() {},
 }
 </script>
 

@@ -141,18 +141,18 @@ export default {
                     .then(() => {})
                     .catch(() => {})
             }
-
-            /*    this.$router
-                .push(location)
-                .then(() => {})
-                .catch(() => {}) */
         },
     },
     components: {
         List,
     },
     mounted() {
-        if (this.$route.path.includes('/search') || this.$route.path.includes('/detail')) {
+        if (
+            this.$route.path.includes('/search') ||
+            this.$route.path.includes('/detail') ||
+            this.$route.path.includes('/shopcart') ||
+            this.$route.path.includes('/addcartsuccess')
+        ) {
             this.isHeaderShow = true
         }
         this.$bus.$on('clearKeyword', () => {
