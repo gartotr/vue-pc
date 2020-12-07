@@ -34,7 +34,7 @@
                 </div>
             </div>
             <!-- 搜索LOGO -->
-            <div class="header_main_outer">
+            <div class="header_main_outer" v-if="isChangeRouter">
                 <div class="header_main w">
                     <h1 class="header_logo">
                         <router-link to="/">
@@ -53,8 +53,24 @@
                     </div>
                 </div>
             </div>
+            <!-- 登录路由 -->
+            <div class="header_main_login" v-else>
+                <div class="header_main_login_outer">
+                    <div class="header_main_login_left">
+                        <div class="header_main_login_img">
+                            <router-link to="/">
+                                <img src="./images/logo-201305-b.png" alt="" />
+                            </router-link>
+                        </div>
+                        <b>欢迎登录</b>
+                    </div>
+                    <div class="header_main_login_right">
+                        <span>登录页面，问卷调查</span>
+                    </div>
+                </div>
+            </div>
             <!-- nav们 -->
-            <div class="header_nav">
+            <div class="header_nav" v-show="isChangeRouter">
                 <div
                     class="header_nav_left"
                     @mouseenter="isHeaderShow = false"
@@ -110,8 +126,10 @@ export default {
             isHeaderShow: this.$route.path === '/',
             searchText: '',
             isShow: false,
+            isChangeRouter: false,
         }
     },
+
     methods: {
         search() {
             const { searchText } = this
@@ -143,8 +161,24 @@ export default {
             }
         },
     },
-    components: {
-        List,
+    watch: {
+        $route: {
+            immediate: true,
+            handler: function ({ path }) {
+                const search = /^\/search/.test(path)
+                const detail = /^\/detail/.test(path)
+                const addcartsuccess = /^\/addcartsuccess/.test(path)
+                const shopcart = /^\/shopcart/.test(path)
+
+                if (path === '/' || search || detail || addcartsuccess || shopcart) {
+                    this.isChangeRouter = true
+                } else {
+                    this.isChangeRouter = false
+                }
+            },
+            // 深度观察监听
+            deep: true,
+        },
     },
     mounted() {
         if (
@@ -161,6 +195,9 @@ export default {
         if (this.$route.path === '/') {
             this.$bus.$emit('clearKeyword')
         }
+    },
+    components: {
+        List,
     },
 }
 </script>
@@ -307,5 +344,33 @@ export default {
 }
 .icon-ditu {
     color: #f10215;
+}
+.header_main_login {
+    width: 100%;
+    height: 140px;
+    background-color: #fff;
+    .header_main_login_outer {
+        display: flex;
+        width: 1180px;
+        margin: 0 auto;
+        height: 140px;
+
+        justify-content: space-between;
+        .header_main_login_left {
+            box-sizing: border-box;
+            padding-top: 30px;
+            display: flex;
+            height: 140px;
+            b {
+                padding-left: 30px;
+                font-size: 24px;
+                line-height: 60px;
+            }
+        }
+        .header_main_login_right {
+            line-height: 140px;
+            color: #999;
+        }
+    }
 }
 </style>

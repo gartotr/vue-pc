@@ -240,7 +240,6 @@ export default {
             this.$bus.$emit('clearKeyword')
         },
         addTrademark(trademark) {
-            console.log(2)
             this.options.trademark = trademark
             this.updataProductList()
         },

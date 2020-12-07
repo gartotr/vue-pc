@@ -7,7 +7,12 @@
                     <p>账户登录</p>
                 </div>
                 <div class="login_input">
-                    <input type="text" id="login_username" placeholder="手机号" v-model="user_phone" />
+                    <input
+                        type="text"
+                        id="login_username"
+                        placeholder="手机号"
+                        v-model="user_phone"
+                    />
                     <input
                         type="password"
                         id="login_userpass"
@@ -15,7 +20,13 @@
                         v-model="user_password"
                         @keyup.enter="login"
                     />
-                    <p><a href="#">忘记密码</a></p>
+                    <div>
+                        <label>
+                            <input type="checkbox" />
+                            自动登录
+                        </label>
+                        <p href="#">忘记密码</p>
+                    </div>
                     <button :plain="true" @click="login">登&nbsp;录</button>
                 </div>
             </div>
@@ -91,6 +102,10 @@ export default {
     width: 300px;
     height: 200px;
     margin: 0 auto;
+    div {
+        display: flex;
+        justify-content: space-between;
+    }
     p {
         text-align: right;
         margin-bottom: 20px;
