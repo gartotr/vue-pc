@@ -92,6 +92,7 @@ import { mapActions, mapState } from 'vuex'
 
 export default {
     name: 'ShopCart',
+
     computed: {
         ...mapState({
             cartList: (state) => state.shopcart.cartList,
@@ -143,7 +144,7 @@ export default {
             }
 
             .cart-th1 {
-                width: 25%;
+                width: 12%;
 
                 input {
                     vertical-align: middle;
@@ -155,14 +156,14 @@ export default {
             }
 
             .cart-th2 {
-                width: 25%;
+                width: 20%;
             }
 
             .cart-th3,
             .cart-th4,
             .cart-th5,
             .cart-th6 {
-                width: 12.5%;
+                width: 16%;
             }
         }
 
@@ -180,11 +181,11 @@ export default {
                 }
 
                 .cart-list-con1 {
-                    width: 4.1667%;
+                    width: 10%;
                 }
 
                 .cart-list-con2 {
-                    width: 25%;
+                    width: 22%;
 
                     img {
                         width: 82px;
@@ -201,7 +202,7 @@ export default {
                 }
 
                 .cart-list-con3 {
-                    width: 20.8333%;
+                    width: 2%;
 
                     .item-txt {
                         text-align: center;
@@ -209,11 +210,11 @@ export default {
                 }
 
                 .cart-list-con4 {
-                    width: 12.5%;
+                    width: 14%;
                 }
 
                 .cart-list-con5 {
-                    width: 12.5%;
+                    width: 18%;
 
                     .mins {
                         border: 1px solid #ddd;
@@ -246,7 +247,7 @@ export default {
                 }
 
                 .cart-list-con6 {
-                    width: 12.5%;
+                    width: 16%;
 
                     .sum {
                         font-size: 16px;
