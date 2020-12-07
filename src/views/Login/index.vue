@@ -22,7 +22,7 @@
                     />
                     <div>
                         <label>
-                            <input type="checkbox" />
+                            <input type="checkbox" v-model="isAutoLogin" />
                             自动登录
                         </label>
                         <p href="#">忘记密码</p>
@@ -43,6 +43,8 @@ export default {
         return {
             user_phone: '',
             user_password: '',
+            isLogining: false,
+            isAutoLogin: true,
         }
     },
     methods: {

@@ -8,6 +8,11 @@ import Register from '../views/Register'
 import Detail from '../views/Detail'
 import AddCartSuccess from '../views/AddCartSuccess'
 import ShopCart from '../views/ShopCart'
+import Pay from '../views/Pay'
+import PaySuccess from '../views/PaySuccess'
+import Trade from '../views/Trade'
+import Center from '../views/Center'
+
 // 重写push和replace方法
 // 目的：为了让编程式导航重复点击时不报错~
 /* const push = VueRouter.prototype.push
@@ -74,6 +79,32 @@ export default new VueRouter({
             name: 'shopcart',
             path: '/shopcart',
             component: ShopCart,
+        },
+        {
+            // 命名路由
+            name: 'trade',
+            path: '/trade',
+            component: Trade,
+        },
+        {
+            // 命名路由
+            name: 'pay',
+            path: '/pay',
+            component: Pay,
+        },
+
+        {
+            // 命名路由
+            name: 'paySuccess',
+            path: '/paySuccess',
+            component: PaySuccess,
+        },
+
+        {
+            // 命名路由
+            name: 'center',
+            path: '/center',
+            component: Center,
         },
     ],
 })

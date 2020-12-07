@@ -6,7 +6,7 @@
                 注册新用户
                 <span class="go">
                     我有账号，去
-                    <a href="login.html" target="_blank">登陆</a>
+                    <router-link to="/login" target="_blank">登陆</router-link>
                 </span>
             </h3>
             <div class="content">
@@ -30,19 +30,17 @@
                 <input type="text" placeholder="请输入你的登录密码" v-model="user.password" />
             </div>
             <div class="content">
-                <ValidationProvider rules="repasswords" v-slot="{ errors }">
-                    <label>确认密码:</label>
-                    <input type="text" placeholder="请输入确认密码" v-model="user.rePassword" />
-                    <span class="error-msg">{{ errors[0] }}</span>
-                </ValidationProvider>
+                <label>确认密码:</label>
+                <input type="text" placeholder="请输入确认密码" v-model="user.rePassword" />
+                <span class="error-msg"></span>
             </div>
             <div class="controls">
                 <input name="m1" type="checkbox" v-model="user.isAgree" />
                 <span>同意协议并注册《尚品汇用户协议》</span>
-                <span class="error-msg">错误提示信息</span>
+                <span class="error-msg"></span>
             </div>
             <div class="btn">
-                <button @click="ttest">完成注册</button>
+                <button @click="submit">完成注册</button>
             </div>
         </div>
     </div>
@@ -80,12 +78,6 @@ extend('codes', {
     message: '验证码必须4位',
 })
 
-extend('repasswords', {
-    validate(value) {
-        return value === this.user.rePassword
-    },
-    message: '两次输入不一致',
-})
 export default {
     name: 'Register',
     data() {
@@ -100,23 +92,30 @@ export default {
         }
     },
     methods: {
-        register() {
-            const { phone, password, rePassword, code, isAgree } = this
-            if (!isAgree) {
-                this.alert('请同意用户协议')
-                return
+        async submit() {
+            try {
+                //手机数据
+                const { phone, password, rePassword, code, isAgree } = this.user
+                //进行验证
+                if (!isAgree) {
+                    this.$message.error('请同意用户协议~')
+                    return
+                }
+                if (password !== rePassword) {
+                    this.$message.error('两次密码不一致')
+                    return
+                }
+                await this.$store.dispatch('register', { phone, password, code })
+                this.$router.push('/login')
+            } catch (e) {
+                /* this.user.password = ''
+                this.user.rePassword = ''
+                this.refresh() */
+                console.log(e)
             }
-            if (!password !== rePassword) {
-                alert('两次不一致')
-                return
-            }
-            console.log(phone, code)
         },
-        refresh(e) {
-            e.target.src = 'http://182.92.128.115/api/user/passport/code'
-        },
-        ttest() {
-            console.log(this.user.password, this.user.rePassword)
+        refresh() {
+            this.$refs.code.src = 'http://182.92.128.115/api/user/passport/code'
         },
     },
     components: {
