@@ -14,7 +14,11 @@
                         <div class="all_city" v-show="isShow"></div>
                     </div>
                     <div class="header_item">
-                        <router-link to="/login" id="user_login">你好,请登录</router-link>
+                        <p v-if="$store.state.user.name">
+                            {{ $store.state.user.name }}
+                            <a>退出</a>
+                        </p>
+                        <router-link to="/login" id="user_login" v-else>你好,请登录</router-link>
                         <router-link to="/register">免费注册</router-link>
                         <span>|</span>
                         <router-link to="/shopcart">我的购物车</router-link>
@@ -234,6 +238,11 @@ export default {
         a:hover {
             transition: all 0.3s;
             color: @orange;
+        }
+        p {
+            a {
+                margin: 0 10px;
+            }
         }
     }
 }
