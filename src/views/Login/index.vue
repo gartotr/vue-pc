@@ -6,20 +6,25 @@
                 <div class="login_tab">
                     <p>账户登录</p>
                 </div>
+
                 <div class="login_input">
-                    <input
-                        type="text"
-                        id="login_username"
-                        placeholder="手机号"
-                        v-model="user_phone"
-                    />
-                    <input
-                        type="password"
-                        id="login_userpass"
-                        placeholder="密码"
-                        v-model="user_password"
-                        @keyup.enter="login"
-                    />
+                    <ValidationProvider rules="required" v-slot="{ errors }">
+                        <input
+                            type="text"
+                            id="login_username"
+                            placeholder="手机号"
+                            v-model="user_phone"
+                        />
+                        <span>{{ errors[0] }}</span>
+                        <input
+                            type="password"
+                            id="login_userpass"
+                            placeholder="密码"
+                            v-model="user_password"
+                            @keyup.enter="login"
+                        />
+                    </ValidationProvider>
+
                     <div>
                         <label>
                             <input type="checkbox" v-model="isAutoLogin" />
@@ -27,7 +32,7 @@
                         </label>
                         <p href="#">忘记密码</p>
                     </div>
-                    <button :plain="true" @click="login">登&nbsp;录</button>
+                    <button :plain="true" @click="submit">登&nbsp;录</button>
                 </div>
             </div>
         </div>
@@ -35,7 +40,13 @@
 </template>
 
 <script>
-import { reqLogin } from '@api/user'
+import { mapState } from 'vuex'
+
+import { ValidationProvider, extend } from 'vee-validate'
+import { required } from 'vee-validate/dist/rules'
+// import { reqLogin } from '@api/user'
+
+extend('required', required)
 
 export default {
     name: 'Login',
@@ -47,13 +58,47 @@ export default {
             isAutoLogin: true,
         }
     },
+    created() {
+        if (this.token) {
+            this.$router.replace('/')
+        }
+    },
+    computed: {
+        ...mapState({
+            token: (state) => state.user.token,
+            name: (state) => state.user.name,
+        }),
+    },
     methods: {
-        login() {
+        async submit() {
             const { user_phone: phone, user_password: password } = this
             if (!phone && !password) {
                 this.$message.error('请输入用户名密码')
                 return
             }
+            try {
+                if (this.isLogining) return
+                this.isLogining = true
+                this.$store.dispatch('login', { phone, password })
+
+                if (this.isAutoLogin) {
+                    localStorage.setItem('name', this.name)
+                    localStorage.setItem('token', this.token)
+                }
+
+                this.$router.replace('/')
+            } catch {
+                this.isLogining = false
+                this.$message.error('输入错误请重新输入')
+            }
+        },
+
+        /* login() {
+            const { user_phone: phone, user_password: password } = this
+            if (!phone && !password) {
+                this.$message.error('请输入用户名密码')
+                return
+            }   
             reqLogin(phone, password)
                 .then(() => {
                     this.$router.push('/')
@@ -61,7 +106,10 @@ export default {
                 .catch(() => {
                     this.$message.error('输入错误请重新输入')
                 })
-        },
+        }, */
+    },
+    components: {
+        ValidationProvider,
     },
 }
 </script>

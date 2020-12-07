@@ -107,4 +107,7 @@ export default new VueRouter({
             component: Center,
         },
     ],
+    scrollBehavior() {
+        return { x: 0, y: 0 }
+    },
 })

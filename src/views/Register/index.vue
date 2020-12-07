@@ -107,11 +107,8 @@ export default {
                 }
                 await this.$store.dispatch('register', { phone, password, code })
                 this.$router.push('/login')
-            } catch (e) {
-                /* this.user.password = ''
-                this.user.rePassword = ''
-                this.refresh() */
-                console.log(e)
+            } catch {
+                this.$message.error('注册失败')
             }
         },
         refresh() {

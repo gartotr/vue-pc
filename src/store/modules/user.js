@@ -11,6 +11,7 @@ export default {
             await reqRegister({ phone, password, code })
             console.log(commit)
         },
+
         async login({ commit }, { phone, password }) {
             const user = await reqLogin(phone, password)
             commit('REQ_LOGIN', user)
@@ -19,7 +20,7 @@ export default {
     mutations: {
         REQ_LOGIN(state, user) {
             state.name = user.name
-            state.token = user.name
+            state.token = user.token
         },
     },
 }
