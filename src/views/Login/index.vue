@@ -79,11 +79,11 @@ export default {
             try {
                 if (this.isLogining) return
                 this.isLogining = true
-                this.$store.dispatch('login', { phone, password })
+                await this.$store.dispatch('login', { phone, password })
 
                 if (this.isAutoLogin) {
-                    localStorage.setItem('name', this.name)
                     localStorage.setItem('token', this.token)
+                    localStorage.setItem('name', this.name)
                 }
 
                 this.$router.replace('/')
