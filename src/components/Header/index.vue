@@ -122,6 +122,7 @@
 
 <script>
 import List from '@comps/List'
+import { getLoginOut } from '@api/loginOut'
 
 export default {
     name: 'Header',
@@ -164,8 +165,10 @@ export default {
                     .catch(() => {})
             }
         },
-        loginOut() {
-            console.log('退出')
+        async loginOut() {
+            await getLoginOut()
+            localStorage.clear()
+            location.reload()
         },
     },
     watch: {

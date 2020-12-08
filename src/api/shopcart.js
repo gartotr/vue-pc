@@ -17,7 +17,7 @@ export const reqUpdateCartCount = (skuId, skuNum) => {
 export const reqUpdateCartCheck = (skuId, isChecked) => {
     return request({
         method: 'GET',
-        url: `/cart/addToCart/${skuId}/${isChecked}`,
+        url: `/cart/checkCart//${skuId}/${isChecked}`,
     })
 }
 //删除
