@@ -1,29 +1,36 @@
-import request from '@utils/request'
+import request from "@utils/request";
 //购物车数据
 export const reqGetCartList = () => {
-    return request({
-        method: 'GET',
-        url: `/cart/cartList`,
-    })
-}
+  return request({
+    method: "GET",
+    url: `/cart/cartList`,
+  });
+};
 //添加减少商品
 export const reqUpdateCartCount = (skuId, skuNum) => {
-    return request({
-        method: 'POST',
-        url: `/cart/addToCart/${skuId}/${skuNum}`,
-    })
-}
+  return request({
+    method: "POST",
+    url: `/cart/addToCart/${skuId}/${skuNum}`,
+  });
+};
 //切换选中
 export const reqUpdateCartCheck = (skuId, isChecked) => {
-    return request({
-        method: 'GET',
-        url: `/cart/checkCart//${skuId}/${isChecked}`,
-    })
-}
+  return request({
+    method: "GET",
+    url: `/cart/checkCart//${skuId}/${isChecked}`,
+  });
+};
 //删除
-export const reqDelCart = skuId => {
-    return request({
-        method: 'DELETE',
-        url: `/cart/deleteCart/${skuId}`,
-    })
-}
+export const reqDelCart = (skuId) => {
+  return request({
+    method: "DELETE",
+    url: `/cart/deleteCart/${skuId}`,
+  });
+};
+//切换状态  /api/cart/checkCart/{skuID}/{isChecked}
+export const reqCheckCart = (skuId, isChecked) => {
+  return request({
+    method: "GET",
+    url: `/cart/checkCart/${skuId}/${isChecked}`,
+  });
+};

@@ -13,7 +13,12 @@
             <div class="cart-body">
                 <ul class="cart-list" v-for="cart in cartList" :key="cart.id">
                     <li class="cart-list-con1">
-                        <input type="checkbox" name="chk_list" :checked="cart.isChecked" />
+                        <input
+                            type="checkbox"
+                            name="chk_list"
+                            :checked="cart.isChecked"
+                            @click="getChangeCheck(cart.skuId, isShopCheck)"
+                        />
                     </li>
                     <li class="cart-list-con2">
                         <img :src="cart.imgUrl" />
@@ -95,7 +100,11 @@ import { mapActions, mapState } from 'vuex'
 
 export default {
     name: 'ShopCart',
-
+    data() {
+        return {
+            isShopCheck: true,
+        }
+    },
     computed: {
         ...mapState({
             cartList: (state) => state.shopcart.cartList,
@@ -103,17 +112,17 @@ export default {
         total() {
             return this.cartList
                 .filter((cart) => cart.isChecked === 1)
-                .reduce((p, c) => p + c.skuNum, 0)
+              .reduce((p, c) => p + c.skuNum, 0)
         },
 
         totalPrice() {
             return this.cartList
                 .filter((cart) => cart.isChecked === 1)
-                .reduce((p, c) => p + c.skuNum * c.skuPrice, 0)
+        .reduce((p, c) => p + c.skuNum * c.skuPrice, 0)
         },
     },
     methods: {
-        ...mapActions(['getCartList', 'updateCartCount', 'delCart']),
+        ...mapActions(['getCartList', 'updateCartCount', 'delCart', '']),
         formatSkuNum(e) {
             let skuNum = +e.target.value.replace(/\D+/g, '')
             if (skuNum < 1) {
@@ -139,6 +148,9 @@ export default {
         async del(skuId) {
             await this.delCart(skuId)
             this.getCartList()
+        },
+        getChangeCheck() {
+            this.isShopCheck = !this.isShopCheck
         },
     },
     mounted() {
