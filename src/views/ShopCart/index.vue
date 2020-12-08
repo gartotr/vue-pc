@@ -55,7 +55,7 @@
                         <span class="sum">{{ cart.skuNum * cart.skuPrice }}</span>
                     </li>
                     <li class="cart-list-con7">
-                        <a href="#none" class="sindelet">删除</a>
+                        <a class="sindelet" @click="del(cart.skuId)">删除</a>
                         <br />
                         <a href="#none">移到收藏</a>
                     </li>
@@ -113,7 +113,7 @@ export default {
         },
     },
     methods: {
-        ...mapActions(['getCartList', 'updateCartCount']),
+        ...mapActions(['getCartList', 'updateCartCount', 'delCart']),
         formatSkuNum(e) {
             let skuNum = +e.target.value.replace(/\D+/g, '')
             if (skuNum < 1) {
@@ -135,6 +135,10 @@ export default {
         },
         goPay() {
             this.$router.push('/trade')
+        },
+        async del(skuId) {
+            await this.delCart(skuId)
+            this.getCartList()
         },
     },
     mounted() {

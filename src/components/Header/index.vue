@@ -52,7 +52,7 @@
                     <div class="header_shopping">
                         <div class="header_cart">
                             <i class="iconfont icon-gouwuchekong"></i>
-                            我的购物车
+                            <router-link to="/shopcart">我的购物车</router-link>
                         </div>
                     </div>
                 </div>
@@ -304,6 +304,9 @@ export default {
         border: 1px solid #eeeeee;
         text-align: center;
         line-height: 34px;
+        a {
+            color: #e1251b;
+        }
         &:hover {
             transition: all 0.4s;
             border: 1px solid #c81623;

@@ -1,4 +1,4 @@
-import { reqGetCartList, reqUpdateCartCheck, reqUpdateCartCount } from '@api/shopcart'
+import { reqGetCartList, reqUpdateCartCheck, reqUpdateCartCount, reqDelCart } from '@api/shopcart'
 //获取三级分类的list
 export default {
     state: {
@@ -7,6 +7,7 @@ export default {
     getters: {},
     actions: {
         //购物车列表
+
         async getCartList({ commit }) {
             const cartList = await reqGetCartList()
             commit('GET_CART_LIST', cartList)
@@ -18,6 +19,10 @@ export default {
         async updateCartCheck({ commit }, { skuId, isChecked }) {
             await reqUpdateCartCheck(skuId, isChecked)
             console.log(commit)
+        },
+        async delCart({ commit }, skuId) {
+            const delTarget = await reqDelCart(skuId)
+            commit('DEL_CART', delTarget)
         },
     },
     mutations: {
@@ -31,6 +36,9 @@ export default {
                 }
                 return cart
             })
+        },
+        DEL_CART(state, delTarget) {
+            state.cartList = state.cartList.filter(item => item.skuId !== delTarget)
         },
     },
 }
