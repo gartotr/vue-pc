@@ -165,10 +165,7 @@ export default {
             }
         },
         loginOut() {
-            this.$store.dispatch('getExit')
-            localStorage.removeItem('token')
-            localStorage.removeItem('name')
-            this.$router.push('/login')
+            console.log('退出')
         },
     },
     watch: {
