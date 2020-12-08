@@ -21,7 +21,7 @@
                             id="login_userpass"
                             placeholder="密码"
                             v-model="user_password"
-                            @keyup.enter="login"
+                            @keyup.enter="submit"
                         />
                     </ValidationProvider>
 

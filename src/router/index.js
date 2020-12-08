@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+import store from '../store'
 import Search from '../views/Search'
 import Home from '../views/Home'
 import Login from '../views/Login'
@@ -38,7 +39,7 @@ VueRouter.prototype.replace = function(location, onComplete, onAbort) {
 
 Vue.use(VueRouter)
 
-export default new VueRouter({
+const router = new VueRouter({
     routes: [
         {
             path: '/',
@@ -64,6 +65,7 @@ export default new VueRouter({
             },
         },
         {
+            name: 'detail',
             path: '/detail/:id',
             component: Detail,
         },
@@ -73,6 +75,12 @@ export default new VueRouter({
             name: 'addcartsuccess',
             path: '/addcartsuccess',
             component: AddCartSuccess,
+            beforeEnter: (to, from, next) => {
+                if (from.name === 'detail') {
+                    return next()
+                }
+                next('./shopcart')
+            },
         },
         {
             // 命名路由
@@ -95,15 +103,15 @@ export default new VueRouter({
 
         {
             // 命名路由
-            name: 'paySuccess',
-            path: '/paySuccess',
+            name: 'paysuccess',
+            path: '/paysuccess',
             component: PaySuccess,
         },
 
         {
             // 命名路由
             name: 'center',
-            path: '/center',
+            path: '/center/myorder',
             component: Center,
         },
     ],
@@ -111,3 +119,14 @@ export default new VueRouter({
         return { x: 0, y: 0 }
     },
 })
+
+const permissionPaths = ['/trade', '/pay', 'center', 'paysuccess']
+
+router.beforeEach((to, from, next) => {
+    if (permissionPaths.indexOf(to.path) > -1 && !store.state.user.token) {
+        return next('/login')
+    }
+    next()
+})
+
+export default router

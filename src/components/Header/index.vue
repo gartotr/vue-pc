@@ -16,7 +16,7 @@
                     <div class="header_item">
                         <p v-if="$store.state.user.name">
                             {{ $store.state.user.name }}
-                            <a>退出</a>
+                            <a @click="loginOut">退出</a>
                         </p>
                         <router-link to="/login" id="user_login" v-else>你好,请登录</router-link>
                         <router-link to="/register">免费注册</router-link>
@@ -163,6 +163,12 @@ export default {
                     .then(() => {})
                     .catch(() => {})
             }
+        },
+        loginOut() {
+            this.$store.dispatch('getExit')
+            localStorage.removeItem('token')
+            localStorage.removeItem('name')
+            this.$router.push('/login')
         },
     },
     watch: {

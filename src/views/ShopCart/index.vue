@@ -83,7 +83,7 @@
                     <i class="summoney">{{ totalPrice }}</i>
                 </div>
                 <div class="sumbtn">
-                    <a class="sum-btn" href="###" target="_blank">结算</a>
+                    <a class="sum-btn" @click="goPay">结算</a>
                 </div>
             </div>
         </div>
@@ -132,6 +132,9 @@ export default {
         },
         async updateCount(skuId, skuNum) {
             await this.updateCartCount({ skuId, skuNum })
+        },
+        goPay() {
+            this.$router.push('/trade')
         },
     },
     mounted() {
