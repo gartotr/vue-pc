@@ -10,9 +10,9 @@ import 'swiper/swiper-bundle.min.css'
 import 'element-ui/lib/theme-chalk/index.css'
 import './styles/style.less'
 import './styles/element-variables.scss'
-
 //测试用的mock 启动mock服务器
 import './mock/mockServer'
+import './plugins/lazyload'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)

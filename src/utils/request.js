@@ -8,8 +8,10 @@ import NProgress from 'nprogress'
 import getUserTempId from '@utils/getUserTempId'
 import 'nprogress/nprogress.css'
 
+const prefix_url = process.env.NODE_ENV === 'development' ? '/' : 'http://182.92.128.115/'
+
 const instance = axios.create({
-    baseURL: '/api',
+    baseURL: `${prefix_url}api`,
 })
 
 const userTempId = getUserTempId()
@@ -19,6 +21,8 @@ instance.interceptors.request.use(config => {
     NProgress.start()
 
     const token = store.state.user.token
+
+    1
 
     if (token) {
         config.headers.token = token
